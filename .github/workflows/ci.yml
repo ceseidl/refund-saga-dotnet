@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build --nologo
+
+      - name: Smoke test (partial failure and refund)
+        run: |
+          out=$(timeout 60 dotnet run --no-build --project src/RefundSaga)
+          echo "$out"
+          echo "$out" | grep -c 'refund=Pending' | grep -qx 1
+          echo "$out" | grep -c 'refund=Confirmed' | grep -qx 3
+          echo "$out" | grep -c 'refund=ManualReview' | grep -qx 1
+          echo "$out" | grep -c 'refunds executed=1' | grep -qx 3
+          echo "$out" | grep -q 'attempts=3 refunds executed=0'
