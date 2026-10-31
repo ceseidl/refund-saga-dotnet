@@ -1,5 +1,7 @@
 # Refund Saga in .NET: when the payment passed and the order failed
 
+Full article: <https://ceseidl.com.br/en/artigos/saga-estorno-dotnet/>
+
 English | [Português](README.pt-BR.md)
 
 [![CI](https://github.com/ceseidl/refund-saga-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/ceseidl/refund-saga-dotnet/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
